@@ -1,13 +1,15 @@
 name: Push to AWS S3
 run-name: ${{ github.actor }} is running this GitHub Actions pipeline
-on: [push]
+on:
+  push:
+    branches:
+      - main
 jobs:
   push-to-s3:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
-
+        uses: actions/checkout@v4
 
       - name: Run npm install
         run: npm install
@@ -20,7 +22,8 @@ jobs:
 
       - name: Upload to S3
         uses: Dheena-sWorkzz/React-github@main
-
+        with:
+          args: --delete
         env:
           SOURCE_DIR: build/
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
